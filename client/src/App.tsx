@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Box } from "@mui/material";
 import aiLogo from "./assets/ai-images/ai-logo.png";
@@ -8,11 +8,14 @@ import assets from "./assets/ai-images/assets.png";
 import settings from "./assets/ai-images/settings.png";
 import menu from "./assets/ai-images/menu.png";
 import { relative } from "path";
+import { Padding } from "@mui/icons-material";
 interface Styles {
   appFlex: React.CSSProperties;
   sideBar: React.CSSProperties;
   imgStack: React.CSSProperties;
   menuPosition: React.CSSProperties;
+  imgDefault: React.CSSProperties;
+  imgClicked: React.CSSProperties;
 }
 interface Iprops {}
 const styles: Styles = {
@@ -24,7 +27,7 @@ const styles: Styles = {
   sideBar: {
     backgroundColor: "rgb(0, 106, 255)",
     padding: 0,
-    width: "15%",
+    width: "20%",
     maxWidth: "150px",
     height: "100vh",
     display: "flex",
@@ -39,7 +42,7 @@ const styles: Styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     gap: "1px",
     height: "400px",
   },
@@ -50,30 +53,46 @@ const styles: Styles = {
     border: "2px solid rgb(0, 106, 255)",
     borderRadius: "10px",
     width: "15px",
-    left: 72,
+    left: 74,
     top: 55,
   },
+  imgDefault: {
+    width: "fit-content",
+    padding: 10,
+  },
+  imgClicked: {
+    width: "fit-content",
+    backgroundColor: "rgb(5, 53, 210)",
+    padding: 10,
+  },
 };
-
+const imgData = [
+  {
+    img: aiLogo,
+    caption: "",
+    id: 0,
+  },
+  {
+    img: dashboard,
+    caption: "dashboard",
+    id: 1,
+  },
+  {
+    img: applications,
+    caption: "applications",
+    id: 2,
+  },
+  {
+    img: assets,
+    caption: "assets",
+    id: 3,
+  },
+];
 const App: React.FC<Iprops> = () => {
-  const imgData = [
-    {
-      img: aiLogo,
-      caption: "",
-    },
-    {
-      img: dashboard,
-      caption: "dashboard",
-    },
-    {
-      img: applications,
-      caption: "applications",
-    },
-    {
-      img: assets,
-      caption: "assets",
-    },
-  ];
+  const [click, setClick] = useState<boolean>(false);
+  const onhandleclick = (e: any) => {
+    setClick(true);
+  };
   return (
     <div className="App" style={styles.appFlex}>
       <Box component="section" style={styles.sideBar}>
@@ -84,8 +103,9 @@ const App: React.FC<Iprops> = () => {
               <img
                 src={item.img}
                 alt={item.caption}
-                style={{ width: "fit-content" }}
+                style={click ? styles.imgClicked : styles.imgDefault}
                 title={item.caption}
+                onClick={(e) => onhandleclick(e)}
               />
               <p>{item.caption.toUpperCase()}</p>
             </div>
@@ -95,13 +115,14 @@ const App: React.FC<Iprops> = () => {
           <img
             src={settings}
             alt="settings"
-            style={{ width: "fit-content" }}
+            style={click ? styles.imgClicked : styles.imgDefault}
             title="settings"
+            onClick={(e) => onhandleclick(e)}
           />
           <p>{"settings".toUpperCase()}</p>
         </div>
       </Box>
-      <Box component="section" sx={{ p: 2, width: "90%" }}></Box>
+      <Box component="section" sx={{ p: 2, width: "100%" }}></Box>
     </div>
   );
 };
