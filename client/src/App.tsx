@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import aiLogo from "./assets/ai-images/ai-logo.png";
 import dashboard from "./assets/ai-images/dashboard.png";
 import applications from "./assets/ai-images/applications.png";
@@ -8,7 +8,7 @@ import assets from "./assets/ai-images/assets.png";
 import settings from "./assets/ai-images/settings.png";
 import menu from "./assets/ai-images/menu.png";
 import { relative } from "path";
-import { Padding } from "@mui/icons-material";
+import { log } from "console";
 interface Styles {
   appFlex: React.CSSProperties;
   sideBar: React.CSSProperties;
@@ -90,8 +90,10 @@ const imgData = [
 ];
 const App: React.FC<Iprops> = () => {
   const [click, setClick] = useState<boolean>(false);
+  const [heading, setHeading] = useState<String>("Dashboard");
   const onhandleclick = (e: any) => {
     setClick(true);
+    setHeading(e.target.title[0].toUpperCase() + e.target.title.slice(1));
   };
   return (
     <div className="App" style={styles.appFlex}>
@@ -122,7 +124,19 @@ const App: React.FC<Iprops> = () => {
           <p>{"settings".toUpperCase()}</p>
         </div>
       </Box>
-      <Box component="section" sx={{ p: 2, width: "100%" }}></Box>
+      <Box component="section" sx={{ px: 4, width: "100%" }}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid>
+            <h3>{heading}</h3>
+          </Grid>
+          <Grid>Login</Grid>
+        </Grid>
+      </Box>
     </div>
   );
 };
