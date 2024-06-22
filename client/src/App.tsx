@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import aiLogo from "./assets/ai-images/ai-logo.png";
 import dashboard from "./assets/ai-images/dashboard.png";
 import applications from "./assets/ai-images/applications.png";
@@ -8,6 +8,7 @@ import assets from "./assets/ai-images/assets.png";
 import settings from "./assets/ai-images/settings.png";
 import menu from "./assets/ai-images/menu.png";
 import Login from "./components/login";
+import SearchArea from "./components/searchArea";
 interface Styles {
   appFlex: React.CSSProperties;
   sideBar: React.CSSProperties;
@@ -25,7 +26,7 @@ const styles: Styles = {
   },
   sideBar: {
     backgroundColor: "rgb(0, 106, 255)",
-    padding: 0,
+    padding: "20px 0px",
     width: "20%",
     maxWidth: "150px",
     height: "100vh",
@@ -42,8 +43,7 @@ const styles: Styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "1px",
-    height: "400px",
+    height: "420px",
   },
   menuPosition: {
     position: "relative",
@@ -53,16 +53,18 @@ const styles: Styles = {
     borderRadius: "10px",
     width: "15px",
     left: 74,
-    top: 55,
+    top: 60,
   },
   imgDefault: {
     width: "fit-content",
     padding: 10,
+    marginBottom: 10,
   },
   imgClicked: {
     width: "fit-content",
     backgroundColor: "rgb(5, 53, 210)",
     padding: 10,
+    marginBottom: 10,
   },
 };
 const imgData = [
@@ -92,7 +94,11 @@ const App: React.FC<Iprops> = () => {
   const [heading, setHeading] = useState<String>("Dashboard");
   const onhandleclick = (e: any) => {
     setClick(true);
-    setHeading(e.target.title[0].toUpperCase() + e.target.title.slice(1));
+    if (e.target.title !== "") {
+      const newHeading =
+        e.target.title[0].toUpperCase() + e.target.title.slice(1);
+      setHeading(newHeading);
+    }
   };
   return (
     <div className="App" style={styles.appFlex}>
@@ -100,7 +106,15 @@ const App: React.FC<Iprops> = () => {
         <div style={styles.imgStack}>
           <img src={menu} alt="menu" style={styles.menuPosition} title="menu" />
           {imgData.map((item, index) => (
-            <div key={index}>
+            <Grid
+              key={index}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 3,
+              }}
+            >
               <img
                 src={item.img}
                 alt={item.caption}
@@ -108,11 +122,17 @@ const App: React.FC<Iprops> = () => {
                 title={item.caption}
                 onClick={(e) => onhandleclick(e)}
               />
-              <p>{item.caption.toUpperCase()}</p>
-            </div>
+              <Typography
+                variant="caption"
+                gutterBottom
+                sx={{ color: "white", fontWeight: 600 }}
+              >
+                {item.caption.toUpperCase()}
+              </Typography>
+            </Grid>
           ))}
         </div>
-        <div>
+        <Grid>
           <img
             src={settings}
             alt="settings"
@@ -121,9 +141,12 @@ const App: React.FC<Iprops> = () => {
             onClick={(e) => onhandleclick(e)}
           />
           <p>{"settings".toUpperCase()}</p>
-        </div>
+        </Grid>
       </Box>
-      <Box component="section" sx={{ px: 4, width: "100%", maxHeight: 80 }}>
+      <Box
+        component="section"
+        sx={{ px: 4, width: "100%", maxHeight: 80, mt: 2.5 }}
+      >
         <Grid
           container
           direction="row"
@@ -132,11 +155,20 @@ const App: React.FC<Iprops> = () => {
           maxHeight="100px"
         >
           <Grid>
-            <h1>{heading}</h1>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ color: "rgb(50, 50, 50)", fontWeight: 600 }}
+            >
+              {heading}
+            </Typography>
           </Grid>
-          <Grid sx={{ position: "absolute", right: 10, top: 15 }}>
+          <Grid sx={{ position: "absolute", right: 10 }}>
             <Login />
           </Grid>
+        </Grid>
+        <Grid sx={{ mt: 2 }}>
+          <SearchArea />
         </Grid>
       </Box>
     </div>
