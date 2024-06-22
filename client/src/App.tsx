@@ -7,8 +7,7 @@ import applications from "./assets/ai-images/applications.png";
 import assets from "./assets/ai-images/assets.png";
 import settings from "./assets/ai-images/settings.png";
 import menu from "./assets/ai-images/menu.png";
-import { relative } from "path";
-import { log } from "console";
+import Login from "./components/login";
 interface Styles {
   appFlex: React.CSSProperties;
   sideBar: React.CSSProperties;
@@ -124,17 +123,20 @@ const App: React.FC<Iprops> = () => {
           <p>{"settings".toUpperCase()}</p>
         </div>
       </Box>
-      <Box component="section" sx={{ px: 4, width: "100%" }}>
+      <Box component="section" sx={{ px: 4, width: "100%", maxHeight: 80 }}>
         <Grid
           container
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          maxHeight="100px"
         >
           <Grid>
-            <h3>{heading}</h3>
+            <h1>{heading}</h1>
           </Grid>
-          <Grid>Login</Grid>
+          <Grid sx={{ position: "absolute", right: 10, top: 15 }}>
+            <Login />
+          </Grid>
         </Grid>
       </Box>
     </div>
